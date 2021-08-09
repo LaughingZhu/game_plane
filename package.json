@@ -1,0 +1,50 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "umi dev NODE_ENV=development",
+    "build": "umi build",
+    "postinstall": "umi generate tmp",
+    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "dependencies": {
+    "@alitajs/hd": "^2.8.4",
+    "@ant-design/icons": "^4.6.2",
+    "@ant-design/pro-layout": "^6.5.0",
+    "@umijs/preset-react": "1.x",
+    "cos-js-sdk-v5": "^1.1.10",
+    "dayjs": "^1.10.6",
+    "lodash": "^4.17.11",
+    "lottie-web": "^5.7.12",
+    "qrcode": "^1.4.4",
+    "umi": "^3.3.4",
+    "umi-request": "^1.0.8",
+    "weixin-js-sdk": "^1.4.0-test"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.171",
+    "@types/qrcode": "^1.4.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@umijs/test": "^3.3.4",
+    "lint-staged": "^10.0.7",
+    "postcss-px-to-viewport": "^1.1.1",
+    "prettier": "^2.2.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "typescript": "^4.1.2",
+    "yorkie": "^2.0.0"
+  }
+}
