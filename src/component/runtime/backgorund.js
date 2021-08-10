@@ -3,12 +3,12 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-09 16:38:40
  * @LastEditros:
- * @LastEditTime: 2021-08-09 17:36:11
+ * @LastEditTime: 2021-08-10 18:01:41
  */
 
 import Sprite from '../base/sprites';
 
-const srceenWidth = window.innerWidth;
+const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
 
 const BG_IMG_SRC = require('../../assets/img/bg.jpg');
@@ -24,7 +24,14 @@ export default class BackGround extends Sprite {
     this.render(ctx);
   }
 
+  update() {
+    this.top += 2;
+
+    if (this.top >= screenHeight) this.top = 0;
+  }
+
   render(ctx) {
+    console.log(ctx, 'background');
     ctx.drawImage(
       this.img,
       0,
@@ -33,7 +40,7 @@ export default class BackGround extends Sprite {
       this.height,
       0,
       -screenHeight + this.top,
-      srceenWidth,
+      screenWidth,
       screenHeight,
     );
     ctx.drawImage(
