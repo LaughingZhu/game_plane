@@ -3,7 +3,7 @@
  * @Author: LaughingZhu
  * @Date: 2021-06-04 17:24:52
  * @LastEditros:
- * @LastEditTime: 2021-08-09 16:46:25
+ * @LastEditTime: 2021-08-11 16:13:48
  */
 const pxToViewPort = require('postcss-px-to-viewport');
 import { defineConfig } from 'umi';
@@ -12,6 +12,8 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  // urlLoaderExcludes: [/.mp3$/],
+
   antd: {},
   routes: [
     {
@@ -71,10 +73,21 @@ export default defineConfig({
     }),
   ],
   // chunks: ['umi', 'vendors'],
-  chainWebpack: function (config, { env }) {
+  chainWebpack: function (config, { env, webpack }) {
     // 删除 umi 内置插件
+    config.module
+      .rule('media')
+      .test(/\.(mp3|4)$/)
+      .use('file-loader')
+      .loader(require.resolve('file-loader'));
+
     if (env === 'production') {
       // build部署分包
+      // config.module
+      // .rule('media')
+      // .test(/\.(mp3|4)$/)
+      // .use('file-loader')
+      // .loader(require.resolve('file-loader'))
       config.merge({
         optimization: {
           minimize: true,
@@ -106,6 +119,8 @@ export default defineConfig({
         .tap(() => {
           return [/moment[/\\]locale$/, /zh-cn/];
         });
+      // config.test(/.mp3$/)
+      // .loader('file-loader')
     }
   },
   publicPath: '/flag_2021/',
@@ -119,4 +134,5 @@ export default defineConfig({
   runtimePublicPath: true,
   hash: true,
   styles: ['@/global.less'],
+  // 添加 loader
 });
