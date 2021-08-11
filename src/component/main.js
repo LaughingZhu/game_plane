@@ -3,7 +3,7 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-09 17:37:08
  * @LastEditros:
- * @LastEditTime: 2021-08-11 14:09:03
+ * @LastEditTime: 2021-08-11 16:10:39
  */
 
 import Background from './runtime/backgorund';
@@ -11,9 +11,10 @@ import Enemy from './npc/enemy';
 import dataBus from './databus';
 import Player from './player/index';
 import GameInfo from './runtime/gameinfo';
+import Music from './runtime/music';
 
 const databus = new dataBus();
-
+let touch = false;
 export default class Main {
   constructor(ctx) {
     // 维护当前requestAnimationFrame的id
@@ -30,7 +31,7 @@ export default class Main {
     this.bg = new Background(ctx);
     this.player = new Player(ctx);
     this.gameInfo = new GameInfo(ctx);
-    console.log(this.gameInfo, 'restart');
+    this.music = new Music();
 
     this.bindLoop = this.loop.bind(this);
     this.hasEventBind = false;
@@ -62,7 +63,7 @@ export default class Main {
         if (!enemy.isPlaying && enemy.isCollideWith(bullet)) {
           // 击中敌人
           enemy.playAnimation();
-          // that.music.playExplosion()
+          that.music.playExplosion();
 
           bullet.visible = false;
           databus.score += 1;
@@ -153,7 +154,7 @@ export default class Main {
 
     if (databus.frame % 20 === 0) {
       this.player.shoot();
-      // this.music.playShoot()
+      this.music.playShoot();
     }
   }
 
