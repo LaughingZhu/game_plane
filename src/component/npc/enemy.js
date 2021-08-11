@@ -3,7 +3,7 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-10 14:27:47
  * @LastEditros:
- * @LastEditTime: 2021-08-10 17:48:57
+ * @LastEditTime: 2021-08-11 11:02:44
  */
 import Animation from '../base/animation';
 import DataBus from '../databus';
@@ -25,6 +25,7 @@ function rnd(start, end) {
 export default class Enemy extends Animation {
   constructor() {
     super(ENEMY_IMG_SRC, ENEMY_WIDTH, ENEMY_HEIGHT);
+    this.initExplosionAnimation();
   }
   init(speed) {
     this.x = rnd(0, window.innerWidth - ENEMY_WIDTH);
@@ -36,17 +37,15 @@ export default class Enemy extends Animation {
 
   // 预定义爆炸的帧动画
   initExplosionAnimation() {
+    console.log('被击中，爆照');
     const frames = [];
 
-    const EXPLO_IMG_PREFIX = '../../assets/img/explosion';
+    const EXPLO_IMG_PREFIX = '.';
     const EXPLO_FRAME_COUNT = 19;
 
     for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
-      const imgSrc = `${EXPLO_IMG_PREFIX + (i + 1)}.png`;
-      console.log(imgSrc);
-      frames.push(`${require(imgSrc)}`);
+      frames.push(require(`../../assets/img/explosion${i + 1}.png`));
     }
-
     this.initFrames(frames);
   }
 

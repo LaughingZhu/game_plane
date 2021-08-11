@@ -3,25 +3,29 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-10 16:59:44
  * @LastEditros:
- * @LastEditTime: 2021-08-10 17:40:41
+ * @LastEditTime: 2021-08-11 11:18:16
  */
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
 
 const atlas = new Image();
 
-atlas.scr = require('../../assets/img/Common.png');
+atlas.src = require('../../assets/img/Common.png');
+console.log(atlas);
 
 export default class GameInfo {
+  constructor(ctx) {
+    this.props = ctx;
+  }
   renderGameScore(ctx, score) {
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '20px Arial';
+    this.props.fillStyle = '#ffffff';
+    this.props.font = '20px Arial';
 
-    ctx.fillText(score, 10, 30);
+    this.props.fillText(score, 10, 30);
   }
 
   renderGameOver(ctx, score) {
-    ctx.drawImage(
+    this.props.drawImage(
       atlas,
       0,
       0,
@@ -33,18 +37,22 @@ export default class GameInfo {
       300,
     );
 
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '20px Arial';
+    this.props.fillStyle = '#ffffff';
+    this.props.font = '20px Arial';
 
-    ctx.fillText('游戏结束', screenWidth / 2 - 40, screenHeight / 2 - 100 + 50);
+    this.props.fillText(
+      '游戏结束',
+      screenWidth / 2 - 40,
+      screenHeight / 2 - 100 + 50,
+    );
 
-    ctx.fillText(
+    this.props.fillText(
       `得分: ${score}`,
       screenWidth / 2 - 40,
       screenHeight / 2 - 100 + 130,
     );
 
-    ctx.drawImage(
+    this.props.drawImage(
       atlas,
       120,
       6,
@@ -56,7 +64,7 @@ export default class GameInfo {
       40,
     );
 
-    ctx.fillText(
+    this.props.fillText(
       '重新开始',
       screenWidth / 2 - 40,
       screenHeight / 2 - 100 + 205,

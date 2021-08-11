@@ -3,7 +3,7 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-10 16:30:29
  * @LastEditros:
- * @LastEditTime: 2021-08-10 17:59:45
+ * @LastEditTime: 2021-08-11 09:53:52
  */
 import Sprite from '../base/sprites';
 import Bullet from './bullet';
@@ -25,7 +25,7 @@ export default class Player extends Sprite {
 
     // 玩家默认处于屏幕底部居中位置
     this.x = srceenWidth / 2 - this.width / 2;
-    this.y = srceenHeight / 2 - this.height - 30;
+    this.y = srceenHeight - this.height - 30;
 
     // 用于在手指移动的时候标识手指是否已经在飞机上
     this.touched = false;
@@ -49,13 +49,13 @@ export default class Player extends Sprite {
       x >= this.x - deviation &&
       y >= this.y - deviation &&
       x <= this.x + this.width + deviation &&
-      y <= this.y + this.hegiht + deviation
+      y <= this.y + this.height + deviation
     );
   }
 
   setAirPosAcrossFingerPosZ(x, y) {
     let disX = x - this.width / 2;
-    let disY = y - this.hegiht / 2;
+    let disY = y - this.height / 2;
 
     if (disX < 0) disX = 0;
     else if (disX > srceenWidth - this.width) disX = srceenWidth - this.width;
@@ -73,7 +73,7 @@ export default class Player extends Sprite {
    * 改变战机的位置
    */
   initEvent(ctx) {
-    canvas.addEventListener('touchStart', (e) => {
+    canvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
 
       const x = e.touches[0].clientX;

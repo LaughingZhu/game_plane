@@ -3,7 +3,7 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-09 17:37:08
  * @LastEditros:
- * @LastEditTime: 2021-08-10 18:04:25
+ * @LastEditTime: 2021-08-11 14:09:03
  */
 
 import Background from './runtime/backgorund';
@@ -25,11 +25,12 @@ export default class Main {
   restart(ctx) {
     databus.reset();
 
-    canvas.removeEventListener('touchStart', this.touchHandle);
+    ctx.canvas.removeEventListener('touchstart', this.touchHandler);
 
     this.bg = new Background(ctx);
     this.player = new Player(ctx);
     this.gameInfo = new GameInfo(ctx);
+    console.log(this.gameInfo, 'restart');
 
     this.bindLoop = this.loop.bind(this);
     this.hasEventBind = false;
@@ -52,9 +53,53 @@ export default class Main {
     }
   }
 
-  collisionDetection() {}
+  // 全局碰撞检测
+  collisionDetection() {
+    const that = this;
+    databus.bullets.forEach((bullet) => {
+      for (let i = 0, il = databus.enemys.length; i < il; i++) {
+        const enemy = databus.enemys[i];
+        if (!enemy.isPlaying && enemy.isCollideWith(bullet)) {
+          // 击中敌人
+          enemy.playAnimation();
+          // that.music.playExplosion()
 
-  touchEventHandler(e) {}
+          bullet.visible = false;
+          databus.score += 1;
+
+          break;
+        }
+      }
+    });
+
+    // 判断是否被敌人击中
+    for (let i = 0, il = databus.enemys.length; i < il; i++) {
+      const enemy = databus.enemys[i];
+      if (this.player.isCollideWith(enemy)) {
+        databus.gameOver = true;
+
+        break;
+      }
+    }
+  }
+
+  // 游戏结束后的触摸事件处理逻辑
+  touchEventHandler(e) {
+    e.preventDefault();
+
+    const x = e.touches[0].clientX;
+    const y = e.touches[0].clientY;
+
+    const area = this.gameInfo.btnArea;
+    console.log(area);
+    if (
+      x >= area.startX &&
+      x <= area.endX &&
+      y >= area.startY &&
+      y <= area.endY
+    )
+      this.restart(this.props);
+  }
 
   /**
    * canvas 重绘函数
@@ -71,7 +116,6 @@ export default class Main {
     });
 
     this.player.drawToCanvas(ctx);
-
     databus.animations.forEach((ani) => {
       if (ani.isPlaying) {
         ani.aniRender(ctx);
@@ -86,8 +130,8 @@ export default class Main {
 
       if (!this.hasEventBind) {
         this.hasEventBind = true;
-        this.touchHandle = this.touchEventHandler.bind(this);
-        ctx.addEventListener('touchstart', this.touchHandle);
+        this.touchHandler = this.touchEventHandler.bind(this);
+        ctx.canvas.addEventListener('touchstart', this.touchHandler);
       }
     }
   }
@@ -123,6 +167,6 @@ export default class Main {
     this.update();
     this.render();
 
-    this.aniId = window.requestAnimationFrame(this.bindLoop, ctx);
+    this.aniId = window.requestAnimationFrame(this.bindLoop, this.props);
   }
 }

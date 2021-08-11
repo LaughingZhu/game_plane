@@ -3,7 +3,7 @@
  * @Author: LaughingZhu
  * @Date: 2021-08-09 16:38:40
  * @LastEditros:
- * @LastEditTime: 2021-08-10 18:01:41
+ * @LastEditTime: 2021-08-11 10:21:19
  */
 
 import Sprite from '../base/sprites';
@@ -31,7 +31,6 @@ export default class BackGround extends Sprite {
   }
 
   render(ctx) {
-    console.log(ctx, 'background');
     ctx.drawImage(
       this.img,
       0,
